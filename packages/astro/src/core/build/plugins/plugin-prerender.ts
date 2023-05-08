@@ -3,6 +3,7 @@ import type { BuildInternals } from '../internal.js';
 import type { AstroBuildPlugin } from '../plugin.js';
 import type { StaticBuildOptions } from '../types';
 import { extendManualChunks } from './util.js';
+import path from 'node:path';
 
 export function vitePluginPrerender(
 	opts: StaticBuildOptions,
@@ -27,7 +28,7 @@ export function vitePluginPrerender(
 							return 'prerender';
 						}
 						// dynamic pages should all go in their own chunk in the pages/* directory
-						return `pages/all`;
+						return `pages/${path.basename(pageInfo.component)}`;
 					}
 				},
 			});
