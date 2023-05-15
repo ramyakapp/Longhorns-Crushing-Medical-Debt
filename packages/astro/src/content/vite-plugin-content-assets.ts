@@ -20,6 +20,11 @@ import {
 } from './consts.js';
 import { hasContentFlag } from './utils.js';
 
+function isPropagatedAsset(viteId: string) {
+	const flags = new URLSearchParams(viteId.split('?')[1]);
+	return flags.has(PROPAGATED_ASSET_FLAG);
+}
+
 export function astroContentAssetPropagationPlugin({
 	mode,
 	settings,
@@ -140,7 +145,8 @@ export function astroConfigBuildPlugin(
 						chunk.type === 'chunk' &&
 						(chunk.code.includes(LINKS_PLACEHOLDER) || chunk.code.includes(SCRIPTS_PLACEHOLDER))
 					) {
-						let entryCSS = new Set<string>();
+						let entryStyles = new Set<string>();
+						let entryLinks = new Set<string>();
 						let entryScripts = new Set<string>();
 
 						for (const id of Object.keys(chunk.modules)) {
@@ -154,7 +160,8 @@ export function astroConfigBuildPlugin(
 									const _entryScripts = pageData.propagatedScripts?.get(id);
 									if (_entryCss) {
 										for (const value of _entryCss) {
-											entryCSS.add(value);
+											if (value.type === 'inline') entryStyles.add(value.content);
+											if (value.type === 'external') entryLinks.add(value.src);
 										}
 									}
 									if (_entryScripts) {
@@ -167,10 +174,16 @@ export function astroConfigBuildPlugin(
 						}
 
 						let newCode = chunk.code;
-						if (entryCSS.size) {
+						if (entryStyles.size) {
+							newCode = newCode.replace(
+								JSON.stringify(STYLES_PLACEHOLDER),
+								JSON.stringify(Array.from(entryStyles))
+							);
+						}
+						if (entryLinks.size) {
 							newCode = newCode.replace(
 								JSON.stringify(LINKS_PLACEHOLDER),
-								JSON.stringify(Array.from(entryCSS).map(prependBase))
+								JSON.stringify(Array.from(entryLinks).map(prependBase))
 							);
 						}
 						if (entryScripts.size) {
