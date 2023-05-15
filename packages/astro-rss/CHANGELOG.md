@@ -1,5 +1,11 @@
 # @astrojs/rss
 
+## 2.4.2
+
+### Patch Changes
+
+- [#7066](https://github.com/withastro/astro/pull/7066) [`a37e67b52`](https://github.com/withastro/astro/commit/a37e67b520dc35dbf40313c77490a97446de2f74) Thanks [@TheOtterlord](https://github.com/TheOtterlord)! - Fix pubDate schema tranformation
+
 ## 2.4.1
 
 ### Patch Changes

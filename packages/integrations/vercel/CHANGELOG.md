@@ -1,5 +1,14 @@
 # @astrojs/vercel
 
+## 3.3.1
+
+### Patch Changes
+
+- [#6876](https://github.com/withastro/astro/pull/6876) [`06ca3702f`](https://github.com/withastro/astro/commit/06ca3702f88ed18a063d2abbbb231615f9f97154) Thanks [@nblackburn](https://github.com/nblackburn)! - Correctly handle analytics id where present
+
+- Updated dependencies [[`914c439bc`](https://github.com/withastro/astro/commit/914c439bccee9fec002c6d92beaa501c398e62ac), [`cd410c5eb`](https://github.com/withastro/astro/commit/cd410c5eb71f825259279c27c4c39d0ad282c3f0)]:
+  - astro@2.4.6
+
 ## 3.3.0
 
 ### Minor Changes
